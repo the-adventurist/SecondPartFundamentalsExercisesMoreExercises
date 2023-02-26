@@ -1,0 +1,1 @@
+materials_dictionary = {'Shars'}
