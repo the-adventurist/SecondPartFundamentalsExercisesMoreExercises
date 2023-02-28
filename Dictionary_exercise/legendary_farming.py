@@ -3,24 +3,28 @@ junk_dictionary = {}
 
 collect_legendary_item = False
 while True:
-    delivery_details = input().lower().split()
+    try:
+        delivery = input()
+    except EOFError:
+        break
+    delivery_details = delivery.split()
     for i in range(0, len(delivery_details), 2):
-        element = delivery_details[i + 1]
+        element = delivery_details[i + 1].lower()
         qty = int(delivery_details[i])
         if element in materials_dictionary:
             materials_dictionary[element] += qty
-        if materials_dictionary['shards'] >= 250:
-            materials_dictionary['shards'] -= 250
-            print('Shato')
-            if element == 'shards':
-                legendary_item = 'Shatowmourne'
-            elif element == 'fragments':
-                legendary_item = 'Valanyr'
-            elif element == 'motes':
-                legendary_item = 'Dragonwrath'
-            print(f'{legendary_item} obtained!')
-            collect_legendary_item = True
-            break
+            if materials_dictionary[element] >= 250:
+                materials_dictionary[element] -= 250
+                legendary_item = None
+                if element == 'shards':
+                    legendary_item = 'Shadowmourne'
+                elif element == 'fragments':
+                    legendary_item = 'Valanyr'
+                elif element == 'motes':
+                    legendary_item = 'Dragonwrath'
+                print(f'{legendary_item} obtained!')
+                collect_legendary_item = True
+                break
         else:
             junk_dictionary[element] = junk_dictionary.get(element, 0) + qty
     if collect_legendary_item:
