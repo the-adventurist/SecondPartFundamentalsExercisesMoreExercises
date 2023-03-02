@@ -25,7 +25,6 @@ for info in dragons_by_names.values():
     if info['types_dragon'] not in list_of_types:
         list_of_types.append(info['types_dragon'])
 
-print(list_of_types)
 filtered_info_by_type = {}
 for present_type in list_of_types:
     filtered_info_by_type[present_type] = {'avr_damage': 0, 'avr_health': 0, 'avr_armor': 0}
@@ -51,10 +50,18 @@ for present_type in list_of_types:
 
 
 sorted_dragons_by_names = sorted(dragons_by_names.items(), key=lambda x: x[0])
-print(sorted_dragons_by_names)
+
+is_printed = False
 for current_type, data in type_dragons_avg_info.items():
     for _ in data.items():
         print(f"{current_type}::({data['avr_damage']:.2f}/{data['avr_health']:.2f}/{data['avr_armor']:.2f})")
         for name, data_details in sorted_dragons_by_names:
-            print(f"-{name} -> damage: {data_details['damage']}, health: {data_details['health']}, "
-                  f"armor: {data_details['armor']}")
+            for _ in data_details.items():
+                if data_details['types_dragon'] == current_type:
+                    print(f"-{name} -> damage: {data_details['damage']}, health: {data_details['health']}, "
+                          f"armor: {data_details['armor']}")
+                    is_printed = True
+                    break
+
+        if is_printed:
+            break
