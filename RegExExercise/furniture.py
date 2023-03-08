@@ -3,17 +3,14 @@ import re
 furniture_purchases = []
 total_price = 0
 
-pattern = r'^>>([a-zA-Z]+)<<([0-9]+(?:\.[0-9]+)?)!([0-9]+)$'
+pattern = r'^\>\>([a-zA-Z]+)\<\<(\d+(?:[\.\d]*))\!(\d+)$'
 re.escape(pattern)
 data = input()
 while data != 'Purchase':
-    sorted_data = re.match(pattern, data)
-    print(sorted_data)
-    furniture = sorted_data.group(1)
-    price = float(sorted_data.group(2))
-    quantity = int(sorted_data.group(3))
-    total_price += (price * quantity)
-    furniture_purchases.append(furniture)
+    sorted_data = re.finditer(pattern, data)
+    for details in sorted_data:
+        furniture_purchases.append(details.group(1))
+        total_price += (float(details.group(2)) * int(details.group(3)))
     data = input()
 print('Bought furniture:')
 print('\n'.join(furniture_purchases))
